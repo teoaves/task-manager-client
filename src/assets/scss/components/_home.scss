@@ -1,0 +1,25 @@
+.user-manager {
+  background-image: url(../../../assets/images/home/manage-users.png);
+}
+
+.task-manager {
+  background-image: url(../../../assets/images/home/manage-task.png);
+}
+
+.task-series-manager {
+  background-image: url(../../../assets/images/home/manage-task-series.png);
+}
+
+.content {
+  background-origin: content-box;
+  background-repeat: no-repeat;
+  background-size: contain;
+  background-position: center;
+  width: 250px;
+  height: 200px;
+  padding:25px;
+  cursor:pointer;
+}
+.content:hover {
+  border: none;
+}

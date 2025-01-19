@@ -1,0 +1,44 @@
+<div style="height: 100%" *ngIf="isLoadingResult" fxLayoutAlign="center center">
+  <mat-spinner diameter="150"></mat-spinner>
+</div>
+
+<div style="height: 100%" class="email-verification" fxLayoutAlign="center center">
+
+  <mat-card-content fxFlex="50" fxLayout="column" fxLayoutAlign="center center">
+
+    <div style="width:350px" class="upper" fxLayout="column" fxLayoutAlign="center center">
+
+      <div [ngStyle]="{'border': status == tokenStatus.EXPIRED ? '7px solid #400e0e' : '7px solid green'}"
+        fxLayoutAlign="center center" class="doughnut">
+        <div
+          [ngClass]="status == tokenStatus.VALID || status ==  tokenStatus.ALREADY_CONFIRMED ? 'tick-mark': 'cross-mark'">
+        </div>
+      </div>
+
+      <p *ngIf="status == tokenStatus.VALID" style="padding-top:20px;color:green">SUCCESS</p>
+      <p *ngIf="status == tokenStatus.ALREADY_CONFIRMED" style="padding-top:20px;color:green">EMAIL ALREADY CONFIRMED
+      </p>
+      <p *ngIf="status == tokenStatus.EXPIRED" style="padding-top:20px;color:#400e0e">FAILED</p>
+    </div>
+
+    <div style="width:350px" class="bottom" fxLayout="column" fxLayoutAlign="space-around center">
+
+      <p *ngIf="status == tokenStatus.VALID" style="text-align: center;width:60%">
+        Congratulations, your account has been succesfully created.
+      </p>
+
+      <p *ngIf="status == tokenStatus.EXPIRED" style="text-align: center;width:60%">
+        Link expired!
+      </p>
+
+      <mat-dialog-actions style="height:45px;border-radius:22px;width:300px" fxLayoutAlign="center center">
+        <a style="cursor:pointer;font-size: 1rem;color:#400e0e" class="email_verification_button"
+          *ngIf="status !== tokenStatus.EXPIRED" routerLink="/login">Continue to
+          Login</a>
+        <a class="email_verification_button" *ngIf="status == tokenStatus.EXPIRED"
+          style="cursor:pointer;font-size: 1rem;color:#400e0e" (click)="onResendVerificationEmail()">Re-send
+          Verification Email</a>
+      </mat-dialog-actions>
+    </div>
+  </mat-card-content>
+  <div>

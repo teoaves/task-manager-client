@@ -1,0 +1,93 @@
+<div style="height: 100%" *ngIf="isLoadingResult" fxLayoutAlign="center center">
+  <mat-spinner diameter="150"></mat-spinner>
+</div>
+
+
+<div style="height: 100%" class="register-login" fxLayoutAlign="center center">
+
+  <mat-card-content style="width: 340px" *ngIf="!isSuccessful">
+
+    <div fxLayout="column" fxLayoutAlign="space-between center">
+
+      <img src="./assets/images/logo/task.jpg" style="width: 200px" />
+
+      <form [formGroup]="form" style="margin-top:15px;margin-bottom:15px">
+
+        <div fxLayout="column" fxLayoutAlign="start center">
+
+          <mat-form-field appearance="fill">
+            <mat-icon fxFlex="20">person</mat-icon>
+            <input [formControl]="form.controls.firstName" fxFlex="80" type="text" placeholder="First name" matInput />
+          </mat-form-field>
+
+          <control-message *ngIf="form.controls['firstName'].touched" [control]="form.controls.firstName">
+          </control-message>
+
+          <mat-form-field appearance="fill">
+            <mat-icon fxFlex="20">person</mat-icon>
+            <input [formControl]="form.controls.lastName" fxFlex="80" type="text" placeholder="Last name" matInput />
+          </mat-form-field>
+
+          <control-message *ngIf="form.controls['lastName'].touched" [control]="form.controls.lastName">
+          </control-message>
+
+          <mat-form-field appearance="fill">
+            <mat-icon fxFlex="20">account_box</mat-icon>
+            <input [formControl]="form.controls.username" fxFlex="80" type="text" placeholder="Username" matInput />
+          </mat-form-field>
+
+          <control-message *ngIf="form.controls['username'].touched" [control]="form.controls.username">
+          </control-message>
+
+          <mat-form-field appearance="fill">
+            <mat-icon fxFlex="20">email</mat-icon>
+            <input [formControl]="form.controls.email" fxFlex="80" type="email" placeholder="Email" matInput />
+          </mat-form-field>
+
+          <control-message *ngIf="form.controls['email'].touched" [control]="form.controls.email">
+          </control-message>
+
+          <mat-form-field appearance="fill">
+            <mat-icon fxFlex="20">lock</mat-icon>
+            <input [formControl]="form.controls.password" [type]="password" fxFlex="80" placeholder="New Password"
+              matInput />
+            <div style="background-color: none;" (click)="onClick()">
+              <mat-icon matTooltip="visible" *ngIf="!show">visibility_off</mat-icon>
+              <mat-icon matTooltip="not visible" *ngIf="show">visibility</mat-icon>
+            </div>
+          </mat-form-field>
+
+          <control-message *ngIf="form.controls['password'].touched" [control]="form.controls.password">
+          </control-message>
+        </div>
+
+        <div style="padding-top:10px;">
+          <mat-dialog-actions fxLayoutAlign="center center">
+            <button (click)="onRegister()" [disabled]="!form.valid" type="submit" name="button" style="width: 100px;"
+              class="mat-raised-button mat-primary">
+              <div>Register</div>
+            </button>
+          </mat-dialog-actions>
+        </div>
+      </form>
+    </div>
+
+    <div fxLayoutAlign="center center">
+      <div class="reminder">
+        Already have an account?
+        <a routerLink="/login" style="padding-left: 5px">Log In</a>
+      </div>
+    </div>
+  </mat-card-content>
+
+  <mat-card-content style="width: 330px" *ngIf="isSuccessful">
+
+    <div fxLayout="column" fxLayoutAlign="space-between center">
+
+      <img src="./assets/images/logo/task.jpg" style="width: 200px" />
+      Your registration is successful! We've sent you a verification mail to your email account. Validate your account
+      and try to login.
+      <a routerLink="/login" style="padding-left: 5px">Go back to Login</a>
+    </div>
+  </mat-card-content>
+</div>

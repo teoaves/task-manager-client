@@ -1,0 +1,17 @@
+<div fxLayout="column" fxLayoutAlign="space-between center" style="height:70%">
+
+  <div class="title">
+    <h1>task QR code Scanner</h1>
+  </div>
+
+  <div *ngIf="scannerEnabled" fxFlex="75" fxLayoutAlign="center start">
+    <zxing-scanner (scanSuccess)="scanSuccessHandler($event)" style="position:absolute" #scanner start="true">
+    </zxing-scanner>
+
+  </div>
+
+  <mat-dialog-actions fxLayoutAlign="center center">
+    <button (click)="enableScanner()" *ngIf="!scannerEnabled" class="mat-raised-button mat-primary scanner-button">Read
+      Other</button>
+  </mat-dialog-actions>
+</div>

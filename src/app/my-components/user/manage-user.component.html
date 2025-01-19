@@ -1,0 +1,209 @@
+<mat-card style="max-height: 753px; overflow: auto" class="list_card_header custom-scroll-table">
+
+  <div fxLayoutAlign="space-between center">
+
+    <div>
+
+      <div (click)="filterOpened = !filterOpened">
+
+        <mat-icon matTooltip="expand less" *ngIf="filterOpened" style="color:green;">expand_less</mat-icon>
+        <mat-icon matTooltip="expand more" *ngIf="!filterOpened" style="color: red;">expand_more</mat-icon>
+      </div>
+    </div>
+
+    <div fxFlex="90" *ngIf="filterOpened">
+
+      <div fxLayoutAlign="start center" fxFlex="22.5">
+
+        <label>Search First Name</label>
+
+        <mat-form-field>
+          <mat-select [(ngModel)]="req.$firstName" panelClass="scroll">
+            <mat-option>
+
+              <ngx-mat-select-search placeholderLabel="Search" ngModel noEntriesFoundLabel="no entries"
+                (ngModelChange)="filterFirstNameList($event)">
+              </ngx-mat-select-search>
+            </mat-option>
+
+            <mat-option *ngFor="let item of filteredFirstNameList" [value]="item.firstName">
+              {{item.firstName}}
+            </mat-option>
+          </mat-select>
+        </mat-form-field>
+      </div>
+
+      <div fxLayoutAlign="start center" fxFlex="22.5">
+
+        <label>Search Last Name</label>
+
+        <mat-form-field>
+          <mat-select [(ngModel)]="req.$lastName" panelClass="scroll">
+            <mat-option>
+
+              <ngx-mat-select-search placeholderLabel="Search" ngModel noEntriesFoundLabel="no entries"
+                (ngModelChange)="filterLastNameList($event)">
+              </ngx-mat-select-search>
+            </mat-option>
+
+            <mat-option *ngFor="let item of filteredLastNameList" [value]="item.lastName">
+              {{item.lastName}}
+            </mat-option>
+          </mat-select>
+        </mat-form-field>
+      </div>
+
+      <div fxLayoutAlign="start center" fxFlex="22.5">
+
+        <label>Search Username</label>
+
+        <mat-form-field>
+          <mat-select [(ngModel)]="req.$username" panelClass="scroll">
+            <mat-option>
+
+              <ngx-mat-select-search placeholderLabel="Search" ngModel noEntriesFoundLabel="no entries"
+                (ngModelChange)="filterUsernameList($event)">
+              </ngx-mat-select-search>
+            </mat-option>
+
+            <mat-option *ngFor="let item of filteredUsernameList" [value]="item.username">
+              {{item.username}}
+            </mat-option>
+          </mat-select>
+        </mat-form-field>
+      </div>
+
+      <div fxLayoutAlign="start center" fxFlex="22.5">
+
+        <label>Search Email</label>
+
+        <mat-form-field>
+          <mat-select [(ngModel)]="req.$email" panelClass="scroll">
+            <mat-option>
+
+              <ngx-mat-select-search placeholderLabel="Search" ngModel noEntriesFoundLabel="no entries"
+                (ngModelChange)="filterEmailList($event)">
+              </ngx-mat-select-search>
+            </mat-option>
+
+            <mat-option *ngFor="let item of filteredEmailList" [value]="item.email">
+              {{item.email}}
+            </mat-option>
+          </mat-select>
+        </mat-form-field>
+      </div>
+
+      <div style="padding-right:5px" fxFlex="10" fxLayoutAlign="end center">
+
+        <button mat-icon-button (click)="onSearch()">
+          <mat-icon matTooltip="search">search</mat-icon>
+        </button>
+
+        <button mat-icon-button (click)="onReset()">
+          <mat-icon matTooltip="reset">refresh</mat-icon>
+        </button>
+      </div>
+    </div>
+
+    <div style="padding-right:10px" fxLayoutAlign="center center">
+      <mat-icon matTooltip="create user" (click)="onForm()">add
+      </mat-icon>
+    </div>
+  </div>
+
+  <table style="width:100%" border=1 frame=void rules=rows>
+    <thead>
+      <tr>
+
+        <th [style.width.%]="5"></th>
+
+        <th [style.width.%]="17">
+          <app-sorting [paging]="req.$paging" [label]="'User ID'" [sortField]="'ID'"
+            (emitSorting)="onChangePaging($event)">
+          </app-sorting>
+        </th>
+
+        <th [style.width.%]="8">
+          <app-sorting [paging]="req.$paging" [label]="'First Name'" [sortField]="'FIRST_NAME'"
+            (emitSorting)="onChangePaging($event)"></app-sorting>
+        </th>
+
+        <th [style.width.%]="8">
+          <app-sorting [paging]="req.$paging" [label]="'Last Name'" [sortField]="'LAST_NAME'"
+            (emitSorting)="onChangePaging($event)"></app-sorting>
+        </th>
+
+        <th [style.width.%]="12.5">
+          <app-sorting [paging]="req.$paging" [label]="'Username'" [sortField]="'USERNAME'"
+            (emitSorting)="onChangePaging($event)"></app-sorting>
+        </th>
+
+        <th [style.width.%]="12.5">
+          <app-sorting [paging]="req.$paging" [label]="'Email'" [sortField]="'EMAIL'"
+            (emitSorting)="onChangePaging($event)"></app-sorting>
+        </th>
+
+        <th [style.width.%]="12.5">
+          <app-sorting [paging]="req.$paging" [label]="'Status'" [sortField]="'STATUS'"
+            (emitSorting)="onChangePaging($event)">
+          </app-sorting>
+        </th>
+
+        <th [style.width.%]="12.5">
+          <app-sorting [paging]="req.$paging" [label]="'Account Locked'" [sortField]="'LOCKED'"
+            (emitSorting)="onChangePaging($event)">
+          </app-sorting>
+        </th>
+      </tr>
+    </thead>
+
+    <tbody class="table_body custom-scroll">
+
+      <tr *ngIf="modelList.length == 0">
+        <td class="no-data" colspan="10">
+          No Data
+        </td>
+      </tr>
+
+      <tr class="table_row" *ngFor="let item of modelList" (click)="onSelectRow(item)">
+
+        <td>
+
+          <button mat-icon-button [matMenuTriggerFor]="ol">
+            <mat-icon matTooltip="Action">more_vert</mat-icon>
+          </button>
+
+          <mat-menu #ol="matMenu">
+
+            <button fxLayoutAlign="space-between center" (click)="onForm(item.id)" mat-menu-item>
+              <span>Edit</span>
+              <mat-icon>edit</mat-icon>
+            </button>
+
+            <button (click)="onDeleteUser(item.id)" mat-menu-item>
+              <span>Delete</span>
+              <mat-icon>delete</mat-icon>
+            </button>
+          </mat-menu>
+        </td>
+        <td>{{item.userId ? item.userId : '-' }}</td>
+        <td>{{item.firstName ? item.firstName : '-' }}</td>
+        <td>{{item.lastName ? item.lastName : '-' }}</td>
+        <td>{{item.username ? item.username : '-' }}</td>
+        <td>{{item.email ? item.email : '-' }}</td>
+        <td>
+          <mat-icon matTooltip="account active" *ngIf="item.status" style="color:green;">check</mat-icon>
+          <mat-icon matTooltip="account not active" *ngIf="!item.status" style="color: red;">close</mat-icon>
+        </td>
+        <td>
+          <mat-icon matTooltip="account unlocked" *ngIf="item.locked" style="color:green;">lock_open</mat-icon>
+          <mat-icon matTooltip="account locked" *ngIf="!item.locked" style="color: red;">lock</mat-icon>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+
+  <div style="margin-top:25px" fxLayoutAlign="center center">
+    <app-paging [paging]="req.$paging" (emitPaging)="onChangePaging($event)"></app-paging>
+  </div>
+</mat-card>

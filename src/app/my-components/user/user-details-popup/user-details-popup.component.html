@@ -1,0 +1,42 @@
+<div>
+  <div class="gene-card-title">
+
+    <div fxFlex fxLayoutAlign="start center">
+
+      <div>
+        <mat-icon>account_circle</mat-icon>
+      </div>
+
+      <div style="padding-left:10px">
+        <h4 style="margin:0">User Details</h4>
+      </div>
+    </div>
+  </div>
+
+  <mat-divider class="divider"></mat-divider>
+
+  <div style="margin-top:20px" class="scrollable-content">
+
+    <div fxLayoutAlign="space-between start" fxLayout="row">
+
+
+      <div fxLayout="column">
+        <mat-icon matTooltip="User ID">assignment_ind</mat-icon>
+        <mat-icon matTooltip="Full Name">perm_identity</mat-icon>
+        <mat-icon matTooltip="Username">perm_identity</mat-icon>
+        <mat-icon matTooltip="Email">email</mat-icon>
+        <mat-icon matTooltip="Role">security</mat-icon>
+        <mat-icon matTooltip="Join Date">date_range</mat-icon>
+      </div>
+
+      <div fxLayout="column" style="line-height: 1.77">
+        <span>{{user.userId}}</span>
+        <span>{{user.firstName + ' ' + user.lastName }}</span>
+        <span>{{user.username}}</span>
+        <span>{{user.email}}</span>
+        <span>{{user.role.substring(5)}}</span>
+        <span>{{user.joinDate | date: "dd/MM/yyyy"}}</span>
+      </div>
+    </div>
+  </div>
+</div>
