@@ -1,0 +1,194 @@
+<mat-card style="max-height: 753px; overflow: auto" class="list_card_header custom-scroll-table">
+
+  <div>
+
+    <div fxFlex="5" fxFlex>
+
+      <div fxLayoutAlign="start center" (click)="filterOpened = !filterOpened">
+
+        <mat-icon matTooltip="expand less" *ngIf="filterOpened" style="color:green;">expand_less</mat-icon>
+        <mat-icon matTooltip="expand more" *ngIf="!filterOpened" style="color: red;">expand_more</mat-icon>
+      </div>
+    </div>
+
+    <div fxFlex="90" *ngIf="filterOpened">
+
+      <div fxLayoutAlign="space-between center" fxFlex>
+
+        <div fxLayoutAlign="start center" fxFlex="20">
+
+          <label>Select Task</label>
+
+          <mat-form-field>
+            <mat-select [(ngModel)]="req.$name" panelClass="scroll">
+              <mat-option>
+
+                <ngx-mat-select-search placeholderLabel="Search" ngModel noEntriesFoundLabel="no entries"
+                  (ngModelChange)="filterTaskList($event)">
+                </ngx-mat-select-search>
+              </mat-option>
+
+              <mat-option *ngFor="let item of filteredTaskList" [value]="item.name">
+                {{item.name}}
+              </mat-option>
+            </mat-select>
+          </mat-form-field>
+        </div>
+
+        <div fxLayoutAlign="start center" fxFlex="20">
+
+          <label>Select Task Series Code</label>
+
+          <mat-form-field>
+            <mat-select [(ngModel)]="req.$taskSeriesCodesList" multiple panelClass="scroll">
+              <mat-option>
+                <ngx-mat-select-search placeholderLabel="Search" ngModel noEntriesFoundLabel="no entries"
+                  (ngModelChange)="filterTaskSeriesCodesList($event)">
+                </ngx-mat-select-search>
+              </mat-option>
+              <mat-option *ngFor="let item of filteredTaskSeriesCodesList" [value]="item.id">
+                {{item.taskSeriesCode}}
+              </mat-option>
+            </mat-select>
+          </mat-form-field>
+        </div>
+
+        <div fxFlex="20" fxLayoutAlign="start center" fxLayout="row">
+
+          <label>Purchase Date From</label>
+
+          <mat-form-field>
+            <input matInput [min]="minDateFrom" [(ngModel)]="dateFrom" (ngModelChange)="onDatePicker($event)"
+              [matDatepicker]="startsAt">
+            <mat-datepicker-toggle [for]="startsAt" matSuffix></mat-datepicker-toggle>
+            <mat-datepicker #startsAt></mat-datepicker>
+          </mat-form-field>
+        </div>
+
+        <div fxFlex="20" fxLayoutAlign="start center" fxLayout="row">
+
+          <label>Purchase Date To</label>
+
+          <mat-form-field>
+            <input [min]="dateFrom" matInput [(ngModel)]="dateTo" [matDatepicker]="endsAt">
+            <mat-datepicker-toggle [for]="endsAt" matSuffix></mat-datepicker-toggle>
+            <mat-datepicker #endsAt></mat-datepicker>
+          </mat-form-field>
+        </div>
+
+        <div style="padding-right:5px" fxFlex="20" fxLayoutAlign="end center">
+
+          <button mat-icon-button (click)="onSearch()">
+            <mat-icon matTooltip="search">search</mat-icon>
+          </button>
+
+          <button mat-icon-button (click)="onReset()">
+            <mat-icon matTooltip="reset">refresh</mat-icon>
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <div fxFlex="5" style="padding-right:10px" fxLayoutAlign="end center">
+      <mat-icon matTooltip="create task" (click)="onForm()">add
+      </mat-icon>
+    </div>
+  </div>
+
+  <table style="width:100%" border=1 frame=void rules=rows>
+    <thead>
+      <tr>
+
+        <th [style.width.%]="5"></th>
+
+        <th [style.width.%]="12.5">
+          <app-sorting [paging]="req.$paging" [label]="'Name'" [sortField]="'TASK_NAME'"
+            (emitSorting)="onChangePaging($event)">
+          </app-sorting>
+        </th>
+
+        <th [style.width.%]="17">
+          <app-sorting [paging]="req.$paging" [label]="'Description'" [sortField]="''"
+            (emitSorting)="onChangePaging($event)">
+          </app-sorting>
+        </th>
+
+        <th [style.width.%]="8">
+          <app-sorting [paging]="req.$paging" [label]="'REF'" [sortField]="'TASK_REF'"
+            (emitSorting)="onChangePaging($event)"></app-sorting>
+        </th>
+
+        <th [style.width.%]="8">
+          <app-sorting [paging]="req.$paging" [label]="'LOT'" [sortField]="'TASK_LOT'"
+            (emitSorting)="onChangePaging($event)"></app-sorting>
+        </th>
+
+        <th [style.width.%]="12.5">
+          <app-sorting [paging]="req.$paging" [label]="'Manufacturer'" [sortField]="'TASK_MANUFACTURER'"
+            (emitSorting)="onChangePaging($event)"></app-sorting>
+        </th>
+
+        <th [style.width.%]="12.5">
+          <app-sorting [paging]="req.$paging" [label]="'Purchase Date'" [sortField]="'TASK_PURCHASE_DATE'"
+            (emitSorting)="onChangePaging($event)"></app-sorting>
+        </th>
+
+        <th [style.width.%]="12.5">
+          <app-sorting [paging]="req.$paging" [label]="'Notes'" [sortField]="''" (emitSorting)="onChangePaging($event)">
+          </app-sorting>
+        </th>
+
+        <th [style.width.%]="12.5">
+          <app-sorting [paging]="req.$paging" [label]="'Task Series Code'" [sortField]="'TASK_SERIES_CODE'"
+            (emitSorting)="onChangePaging($event)">
+          </app-sorting>
+        </th>
+      </tr>
+    </thead>
+
+    <tbody class="table_body custom-scroll">
+
+      <tr *ngIf="modelList.length == 0">
+        <td class="no-data" colspan="10">
+          No Data
+        </td>
+      </tr>
+
+      <tr class="table_row" *ngFor="let item of modelList" (click)="onSelectRow(item)">
+
+        <td>
+
+          <button mat-icon-button [matMenuTriggerFor]="ol">
+            <mat-icon matTooltip="Action">more_vert</mat-icon>
+          </button>
+
+          <mat-menu #ol="matMenu">
+
+            <button fxLayoutAlign="space-between center" (click)="onForm(item.id)" mat-menu-item>
+              <span>Edit</span>
+              <mat-icon>edit</mat-icon>
+            </button>
+
+            <button (click)="onDeletetask(item.id)" mat-menu-item>
+              <span>Delete</span>
+              <mat-icon>delete</mat-icon>
+            </button>
+          </mat-menu>
+        </td>
+
+        <td>{{item.name ? item.name : '-' }}</td>
+        <td>{{item.description ? item.description : '-' }}</td>
+        <td>{{item.taskRef ? item.taskRef : '-' }}</td>
+        <td>{{item.taskLot ? item.taskLot : '-' }}</td>
+        <td>{{item.taskManufacturer ? item.taskManufacturer : '-' }}</td>
+        <td>{{item.taskPurchaseDate | date: "dd/MM/yyyy"}}</td>
+        <td>{{item.taskNotes ? item.taskNotes : '-' }}</td>
+        <td>{{item.taskSeriesQrCode ? item.taskSeriesQrCode : '-' }}</td>
+      </tr>
+    </tbody>
+  </table>
+
+  <div style="margin-top:25px" fxLayoutAlign="center center">
+    <app-paging [paging]="req.$paging" (emitPaging)="onChangePaging($event)"></app-paging>
+  </div>
+</mat-card>
